@@ -69,14 +69,19 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       bottomNavigationBar: FancyBottomNavigation(
+        barBackgroundColor: Colors.blue,
+        textColor: Colors.white,
+        circleColor: Colors.white,
+        activeIconColor: Colors.blue,
+        inactiveIconColor: Colors.white,
         tabs: [
           TabData(
-            iconData: Icons.grading,
-            title: 'Brainly',
+            iconData: Icons.search,
+            title: 'Barang Ditemukan',
           ),
           TabData(
-            iconData: Icons.book,
-            title: 'Wikipedia',
+            iconData: Icons.list_alt,
+            title: 'Laporan Kehilangan',
           ),
         ],
         onTabChangedListener: (index) {
