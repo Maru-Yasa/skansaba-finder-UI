@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 // ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../components/postingan.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
+import './laporan_kehilangan_screen.dart';
+import './barang_hilang_screen.dart';
+
+var page = <Widget>[BarangHilangScreen(), LaporanKehilanganScreen()];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -14,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int currentPage = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,45 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: Center(
-        child: Container(
-          child: ListView(
-            padding: EdgeInsets.all(20.0),
-            children: <Widget>[
-              Postingan(
-                judul: "Ditemukan Tupperware",
-                desc: "ditemukan di bawah meja kelas 10",
-                img_url:
-                    'https://static.republika.co.id/uploads/images/inpicture_slide/019583200-1591351351-tupperware_141302_bigjpg.jpg',
-              ),
-              Postingan(
-                judul: "Ditemukan Tupperware",
-                desc: "ditemukan di bawah meja kelas 10",
-                img_url:
-                    'https://static.republika.co.id/uploads/images/inpicture_slide/019583200-1591351351-tupperware_141302_bigjpg.jpg',
-              ),
-              Postingan(
-                judul: "Ditemukan Tupperware",
-                desc: "ditemukan di bawah meja kelas 10",
-                img_url:
-                    'https://static.republika.co.id/uploads/images/inpicture_slide/019583200-1591351351-tupperware_141302_bigjpg.jpg',
-              ),
-              Postingan(
-                judul: "Ditemukan Tupperware",
-                desc: "ditemukan di bawah meja kelas 10",
-                img_url:
-                    'https://static.republika.co.id/uploads/images/inpicture_slide/019583200-1591351351-tupperware_141302_bigjpg.jpg',
-              ),
-              Postingan(
-                judul: "Ditemukan Tupperware",
-                desc: "ditemukan di bawah meja kelas 10",
-                img_url:
-                    'https://static.republika.co.id/uploads/images/inpicture_slide/019583200-1591351351-tupperware_141302_bigjpg.jpg',
-              )
-            ],
-          ),
-        ),
-      ),
+      body: page[currentPage],
       bottomNavigationBar: FancyBottomNavigation(
         barBackgroundColor: Colors.blue,
         textColor: Colors.white,
@@ -85,9 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         onTabChangedListener: (index) {
-          // setState(() {
-          //   currentPage = index;
-          // });
+          setState(() {
+            currentPage = index;
+          });
         },
       ),
     );
