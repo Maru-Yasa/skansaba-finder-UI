@@ -6,8 +6,14 @@ import '../components/postingan.dart';
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import './laporan_kehilangan_screen.dart';
 import './barang_hilang_screen.dart';
+import './profile_screen.dart';
+import './login_screen.dart';
 
-var page = <Widget>[BarangHilangScreen(), LaporanKehilanganScreen()];
+var page = <Widget>[
+  BarangHilangScreen(),
+  LaporanKehilanganScreen(),
+  ProfileScreen()
+];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -33,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: page[currentPage],
+      body: LoginScreen(),
       bottomNavigationBar: FancyBottomNavigation(
         barBackgroundColor: Colors.blue,
         textColor: Colors.white,
@@ -48,6 +54,10 @@ class _HomeScreenState extends State<HomeScreen> {
           TabData(
             iconData: Icons.list_alt,
             title: 'Laporan Kehilangan',
+          ),
+          TabData(
+            iconData: Icons.person,
+            title: 'Profile',
           ),
         ],
         onTabChangedListener: (index) {

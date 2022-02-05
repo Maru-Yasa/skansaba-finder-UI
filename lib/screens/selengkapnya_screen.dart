@@ -14,6 +14,52 @@ class SelengkapnyaScreen extends StatefulWidget {
 class _SelengkapnyaScreenState extends State<SelengkapnyaScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Scaffold(
+        appBar: AppBar(title: Text('Selengkapnya')),
+        body: Center(
+          child: ListView(
+            children: [
+              Container(
+                margin: EdgeInsets.all(40),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: EdgeInsets.all(15.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Text(
+                          'Judul',
+                          style: GoogleFonts.montserrat(
+                            textStyle: Theme.of(context).textTheme.bodyText1,
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

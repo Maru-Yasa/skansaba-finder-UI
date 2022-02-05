@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../screens/selengkapnya_screen.dart';
 
 class Postingan extends StatelessWidget {
   final String judul;
@@ -70,7 +71,12 @@ class Postingan extends StatelessWidget {
                     TextButton(
                       style: TextButton.styleFrom(
                           primary: Colors.white, backgroundColor: Colors.blue),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SelengkapnyaScreen()));
+                      },
                       child: Text('Selengkapnya'),
                     )
                   ],
