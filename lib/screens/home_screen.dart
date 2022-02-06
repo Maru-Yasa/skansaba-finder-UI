@@ -9,6 +9,8 @@ import './barang_hilang_screen.dart';
 import './profile_screen.dart';
 import './login_screen.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 var page = <Widget>[
   BarangHilangScreen(),
   LaporanKehilanganScreen(),
@@ -23,6 +25,15 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  _launcher(int index) async {
+    final prefs = await SharedPreferences.getInstance();
+    final bool isLogin = prefs.getBool('isLogin') ?? false;
+    return isLogin
+        ? page[index]
+        : Navigator.of(context)
+            .pushNamedAndRemoveUntil('/login', (route) => false);
+  }
+
   int currentPage = 0;
   @override
   Widget build(BuildContext context) {
@@ -39,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: LoginScreen(),
+      body: _launcher(currentPage),
       bottomNavigationBar: FancyBottomNavigation(
         barBackgroundColor: Colors.blue,
         textColor: Colors.white,

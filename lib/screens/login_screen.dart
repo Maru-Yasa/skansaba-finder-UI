@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../components/my_container.dart';
 import '../components/my_form_field.dart';
 import '../models/login_model.dart';
+import '../providers/login.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -28,16 +29,21 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Container(
-                  margin: EdgeInsets.all(20),
-                  child: Text(
-                    "Login",
-                    style: GoogleFonts.montserrat(
-                      textStyle: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 40.0,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  )),
+                constraints: BoxConstraints.expand(height: 150),
+                margin: EdgeInsets.all(20),
+                child: Image.asset('images/logo.png'),
+              ),
+              // Container(
+              //     margin: EdgeInsets.all(20),
+              //     child: Text(
+              //       "Login",
+              //       style: GoogleFonts.montserrat(
+              //         textStyle: TextStyle(
+              //             color: Colors.blue,
+              //             fontSize: 40.0,
+              //             fontWeight: FontWeight.bold),
+              //       ),
+              //     )),
               Container(
                 margin: EdgeInsets.all(10),
                 child: Form(
@@ -73,19 +79,67 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             margin:
                                 EdgeInsets.only(right: 20, left: 20, top: 15)),
-                        ElevatedButton(
-                            onPressed: () {
-                              // Validate returns true if the form is valid, or false otherwise.
-                              if (_formKey.currentState!.validate()) {
-                                // If the form is valid, display a snackbar. In the real world,
-                                // you'd often call a server or save the information in a database.
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('Processing Data')),
-                                );
-                              }
-                            },
-                            child: Text('Login'))
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Container(
+                              margin:
+                                  EdgeInsets.only(left: 30, right: 30, top: 20),
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                  minimumSize: Size.fromHeight(50),
+                                  primary: Colors.white,
+                                  backgroundColor: Colors.blue,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  // Validate returns true if the form is valid, or false otherwise.
+                                  if (_formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
+                                    // If the form is valid, display a snackbar. In the real world,
+                                    // you'd often call a server or save the information in a database.
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text('Processing Data')),
+                                    );
+
+                                    LoginProvider()
+                                        .login(model.username, model.password);
+                                  }
+                                },
+                                child: Text('Login'),
+                              ),
+                            ),
+                            Container(
+                              margin:
+                                  EdgeInsets.only(left: 30, right: 30, top: 10),
+                              child: OutlinedButton(
+                                style: OutlinedButton.styleFrom(
+                                  primary: Colors.blue,
+                                  backgroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  // Validate returns true if the form is valid, or false otherwise.
+                                  if (_formKey.currentState!.validate()) {
+                                    _formKey.currentState!.save();
+                                    // If the form is valid, display a snackbar. In the real world,
+                                    // you'd often call a server or save the information in a database.
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text('Processing Data')),
+                                    );
+                                  }
+                                },
+                                child: Text('Register'),
+                              ),
+                            ),
+                          ],
+                        )
                       ],
                     )),
               )

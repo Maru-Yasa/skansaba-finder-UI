@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 class MyContainer extends StatelessWidget {
   final Widget? child;
   final EdgeInsets? margin;
-  const MyContainer({Key? key, Widget? this.child, EdgeInsets? this.margin})
+  const MyContainer({Key? key, Widget? this.child, EdgeInsets? this.margin,})
       : super(key: key);
 
   @override
