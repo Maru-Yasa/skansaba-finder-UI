@@ -2,151 +2,101 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth.dart' as auth;
 import '../components/my_container.dart';
 import '../components/my_form_field.dart';
 import '../models/login_model.dart';
-import '../providers/login.dart';
+import 'package:flutter_login/flutter_login.dart';
+
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({Key? key}) : super(key: key);
+  static const String routeName = "/login";
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>();
-  final model = LoginModel();
+  Duration get loginTime => Duration(milliseconds: 2250);
+  Future<String?>? _loginController(LoginData data) {
+    return Future.delayed(loginTime).then((_) async {
+      try {
+        await Provider.of<auth.Auth>(context, listen: false).login(data);
+      } catch (e) {
+        return e.toString();
+      }
+    });
+  }
+
+  // Future<String?>? _register(LoginData data) {
+  //   return Future.delayed(loginTime).then((_) async {
+  //     try {
+  //       await Provider.of<auth.Auth>(context, listen: false).register(data);
+  //     } catch (e) {
+  //       return e.toString();
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(50),
-        child: MyContainer(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                constraints: BoxConstraints.expand(height: 150),
-                margin: EdgeInsets.all(20),
-                child: Image.asset('images/logo.png'),
-              ),
-              // Container(
-              //     margin: EdgeInsets.all(20),
-              //     child: Text(
-              //       "Login",
-              //       style: GoogleFonts.montserrat(
-              //         textStyle: TextStyle(
-              //             color: Colors.blue,
-              //             fontSize: 40.0,
-              //             fontWeight: FontWeight.bold),
-              //       ),
-              //     )),
-              Container(
-                margin: EdgeInsets.all(10),
-                child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        MyFormField(
-                            isObscure: false,
-                            prefixIcon: Icon(Icons.person),
-                            hint: "Username",
-                            validator: (String? value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter an username';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              this.model.username = value;
-                            },
-                            margin: EdgeInsets.only(right: 20, left: 20)),
-                        MyFormField(
-                            isObscure: true,
-                            prefixIcon: Icon(Icons.lock),
-                            hint: "Password",
-                            validator: (String? value) {
-                              if (value!.isEmpty) {
-                                return 'Please enter password';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              this.model.password = value;
-                            },
-                            margin:
-                                EdgeInsets.only(right: 20, left: 20, top: 15)),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Container(
-                              margin:
-                                  EdgeInsets.only(left: 30, right: 30, top: 20),
-                              child: TextButton(
-                                style: TextButton.styleFrom(
-                                  minimumSize: Size.fromHeight(50),
-                                  primary: Colors.white,
-                                  backgroundColor: Colors.blue,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  // Validate returns true if the form is valid, or false otherwise.
-                                  if (_formKey.currentState!.validate()) {
-                                    _formKey.currentState!.save();
-                                    // If the form is valid, display a snackbar. In the real world,
-                                    // you'd often call a server or save the information in a database.
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text('Processing Data')),
-                                    );
-
-                                    LoginProvider()
-                                        .login(model.username, model.password);
-                                  }
-                                },
-                                child: Text('Login'),
-                              ),
-                            ),
-                            Container(
-                              margin:
-                                  EdgeInsets.only(left: 30, right: 30, top: 10),
-                              child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                  primary: Colors.blue,
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  // Validate returns true if the form is valid, or false otherwise.
-                                  if (_formKey.currentState!.validate()) {
-                                    _formKey.currentState!.save();
-                                    // If the form is valid, display a snackbar. In the real world,
-                                    // you'd often call a server or save the information in a database.
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text('Processing Data')),
-                                    );
-                                  }
-                                },
-                                child: Text('Register'),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    )),
-              )
-            ],
+    return Container(
+      child: FlutterLogin(
+        disableCustomPageTransformer: true,
+        hideForgotPasswordButton: true,
+        additionalSignupFields: [
+          UserFormField(
+            keyName: "nis",
+            displayName: "NIS",
+            icon: Icon(Icons.person),
+            fieldValidator: (value) {
+              if (value!.isNotEmpty) {
+                return null;
+              } else if (value.length > 5) {
+                return "NIS too long";
+              }
+              return "NIS empty";
+            },
           ),
+          UserFormField(
+            keyName: "nama",
+            displayName: "Name",
+            icon: Icon(Icons.person),
+            fieldValidator: (value) {
+              if (value!.isNotEmpty) {
+                return null;
+              }
+              return "Name empty";
+            },
+          ),
+        ],
+        loginAfterSignUp: false,
+        messages: LoginMessages(
+          userHint: "Username",
+          signUpSuccess: "Berhasil mendaftar",
         ),
+        userType: LoginUserType.name,
+        onSignup: (value) {},
+        logo: AssetImage("images/logo.png"),
+        title: "Skansaba Finder",
+        onLogin: _loginController,
+        onSubmitAnimationCompleted: () {
+          Navigator.pushNamedAndRemoveUntil(
+              context, HomeScreen.routeName, (route) => false);
+        },
+        onRecoverPassword: (value) {},
+        userValidator: (value) {
+          if (value!.isNotEmpty) {
+            return null;
+          } else {
+            return "username empty";
+          }
+        },
       ),
     );
+    ;
   }
 }

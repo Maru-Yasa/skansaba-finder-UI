@@ -15,6 +15,7 @@ class Postingan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData media = MediaQuery.of(context);
     return Padding(
       padding: EdgeInsets.all(40),
       child: Container(
@@ -73,9 +74,10 @@ class Postingan extends StatelessWidget {
                           primary: Colors.white, backgroundColor: Colors.blue),
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SelengkapnyaScreen()));
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SelengkapnyaScreen()),
+                        );
                       },
                       child: Text('Selengkapnya'),
                     )

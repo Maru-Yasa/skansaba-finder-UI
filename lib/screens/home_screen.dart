@@ -1,42 +1,57 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
-// ignore_for_file: prefer_const_constructors
+import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../components/postingan.dart';
-import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
-import './laporan_kehilangan_screen.dart';
-import './barang_hilang_screen.dart';
-import './profile_screen.dart';
-import './login_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:skansaba_finder/providers/auth.dart';
+import 'package:skansaba_finder/screens/barang_hilang_screen.dart';
+import 'package:skansaba_finder/screens/laporan_kehilangan_screen.dart';
+import 'package:skansaba_finder/screens/login_screen.dart';
+import 'package:skansaba_finder/screens/profile_screen.dart';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
-var page = <Widget>[
+var pages = <Widget>[
   BarangHilangScreen(),
-  LaporanKehilanganScreen(),
+  const LaporanKehilanganScreen(),
   ProfileScreen()
 ];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+  static const String routeName = "/home";
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  _launcher(int index) async {
-    final prefs = await SharedPreferences.getInstance();
-    final bool isLogin = prefs.getBool('isLogin') ?? false;
-    return isLogin
-        ? page[index]
-        : Navigator.of(context)
-            .pushNamedAndRemoveUntil('/login', (route) => false);
-  }
-
+  bool isLogin = false;
+  bool isLoading = false;
   int currentPage = 0;
   @override
+  void didChangeDependencies() {
+    setState(() {
+      isLoading = true;
+    });
+    Auth auth = Provider.of<Auth>(context);
+    auth.isLogin.then((value) {
+      print("is login : " + value.toString());
+      if (value) {
+        setState(() {
+          isLogin = true;
+          isLoading = false;
+        });
+      } else {
+        Future.delayed(Duration.zero, () {
+          Navigator.pushNamedAndRemoveUntil(
+              context, LoginScreen.routeName, (route) => false);
+        });
+      }
+    });
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // return
     return Scaffold(
       appBar: AppBar(
         leading: Padding(
@@ -46,11 +61,12 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(
           "Skansaba Finder",
           style: GoogleFonts.montserrat(
-            textStyle: Theme.of(context).textTheme.headline3,
+            textStyle: Theme.of(context).textTheme.headline2,
           ),
         ),
       ),
-      body: _launcher(currentPage),
+      body:
+          (isLoading) ? const CircularProgressIndicator() : pages[currentPage],
       bottomNavigationBar: FancyBottomNavigation(
         barBackgroundColor: Colors.blue,
         textColor: Colors.white,
