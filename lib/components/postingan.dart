@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../screens/selengkapnya_screen.dart';
@@ -51,9 +53,12 @@ class Postingan extends StatelessWidget {
                 ),
               ),
               Container(
-                  margin: EdgeInsets.only(top: 10),
-                  constraints: BoxConstraints(maxHeight: 400),
-                  child: Image.network(this.img_url ?? "")),
+                margin: EdgeInsets.only(top: 10),
+                constraints: BoxConstraints(maxHeight: 400),
+                child: this.img_url!.isNotEmpty
+                    ? Image.file(File(img_url ?? ""))
+                    : Image.asset("images/default.png"),
+              ),
               Container(
                 margin: EdgeInsets.only(top: 10),
                 child: Text(

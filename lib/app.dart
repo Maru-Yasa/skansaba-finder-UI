@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:skansaba_finder/providers/auth.dart';
+import 'package:skansaba_finder/providers/barang.dart';
 import 'screens/home_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
@@ -14,6 +15,7 @@ class App extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => Auth()),
+        ChangeNotifierProvider(create: (context) => BarangProvider())
       ],
       child: MaterialApp(
         routes: {

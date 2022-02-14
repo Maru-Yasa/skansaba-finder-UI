@@ -2,17 +2,13 @@ import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:skansaba_finder/models/barang_model.dart';
 import 'package:skansaba_finder/providers/auth.dart';
+import 'package:skansaba_finder/providers/barang.dart';
 import 'package:skansaba_finder/screens/barang_hilang_screen.dart';
 import 'package:skansaba_finder/screens/laporan_kehilangan_screen.dart';
 import 'package:skansaba_finder/screens/login_screen.dart';
 import 'package:skansaba_finder/screens/profile_screen.dart';
-
-var pages = <Widget>[
-  BarangHilangScreen(),
-  const LaporanKehilanganScreen(),
-  ProfileScreen()
-];
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -25,7 +21,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool isLogin = false;
   bool isLoading = false;
+  List<BarangModel> barang_all = [];
   int currentPage = 0;
+
   @override
   void didChangeDependencies() {
     setState(() {
@@ -51,6 +49,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var pages = <Widget>[
+      BarangHilangScreen(),
+      const LaporanKehilanganScreen(),
+      ProfileScreen()
+    ];
     // return
     return Scaffold(
       appBar: AppBar(
