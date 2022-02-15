@@ -15,6 +15,16 @@ class Postingan extends StatelessWidget {
       {Key? key, required this.judul, required this.desc, this.img_url})
       : super(key: key);
 
+  _checkImage() {
+    try {
+      if (img_url!.isNotEmpty) {
+        return Image.asset("images/default.png");
+      }
+    } catch (e) {
+      return Image.asset("images/default.png");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     MediaQueryData media = MediaQuery.of(context);
@@ -55,9 +65,7 @@ class Postingan extends StatelessWidget {
               Container(
                 margin: EdgeInsets.only(top: 10),
                 constraints: BoxConstraints(maxHeight: 400),
-                child: this.img_url!.isNotEmpty
-                    ? Image.file(File(img_url ?? ""))
-                    : Image.asset("images/default.png"),
+                child: _checkImage(),
               ),
               Container(
                 margin: EdgeInsets.only(top: 10),
@@ -81,7 +89,11 @@ class Postingan extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => SelengkapnyaScreen()),
+                              builder: (context) => SelengkapnyaScreen(
+                                    judul: this.judul,
+                                    desc: this.desc,
+                                    img_url: this.img_url,
+                                  )),
                         );
                       },
                       child: Text('Selengkapnya'),

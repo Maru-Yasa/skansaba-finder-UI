@@ -26,11 +26,13 @@ class _BarangHilangScreenState extends State<BarangHilangScreen> {
   @override
   void didChangeDependencies() {
     is_loading = true;
-    setState(() {
-      Provider.of<BarangProvider>(context).barang_all.then((value) {
+    Provider.of<BarangProvider>(context).barang_all.then((value) {
+      setState(() {
         barang_all = value;
-        print(barang_all[0].nama);
       });
+      print(barang_all[0].nama);
+    });
+    setState(() {
       is_loading = false;
     });
     super.didChangeDependencies();
@@ -45,13 +47,11 @@ class _BarangHilangScreenState extends State<BarangHilangScreen> {
             : ListView.builder(
                 itemCount: barang_all.length,
                 itemBuilder: (context, index) {
-                  return Text("test");
-                  // return Postingan(
-                  //   judul: barang_all[index].nama ?? "none",
-                  //   desc: barang_all[index].keterangan ?? "none",
-                  //   img_url:
-                  //       'https://static.republika.co.id/uploads/images/inpicture_slide/019583200-1591351351-tupperware_141302_bigjpg.jpg',
-                  // );
+                  // return Text(barang_all[index].nama ?? "tidak ada");
+                  return Postingan(
+                    judul: barang_all[index].nama ?? "none",
+                    desc: barang_all[index].keterangan ?? "none",
+                  );
                 },
               ),
       ),
@@ -67,12 +67,7 @@ class _BarangHilangScreenState extends State<BarangHilangScreen> {
 //               desc: "ditemukan di bawah meja kelas 10",
 
 //             ),
-//             Postingan(
-//               judul: "Ditemukan Tupperware",
-//               desc: "ditemukan di bawah meja kelas 10",
-//               img_url:
-//                   'https://static.republika.co.id/uploads/images/inpicture_slide/019583200-1591351351-tupperware_141302_bigjpg.jpg',
-//             ),
+
 //             Postingan(
 //               judul: "Ditemukan Tupperware",
 //               desc: "ditemukan di bawah meja kelas 10",

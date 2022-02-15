@@ -5,7 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SelengkapnyaScreen extends StatefulWidget {
-  SelengkapnyaScreen({Key? key}) : super(key: key);
+  final String judul;
+  final String desc;
+  final String? img_url;
+  const SelengkapnyaScreen(
+      {Key? key, required this.judul, required this.desc, this.img_url})
+      : super(key: key);
 
   @override
   _SelengkapnyaScreenState createState() => _SelengkapnyaScreenState();
@@ -46,7 +51,7 @@ class _SelengkapnyaScreenState extends State<SelengkapnyaScreen> {
                     children: [
                       Container(
                         child: Text(
-                          'Judul',
+                          widget.judul,
                           style: GoogleFonts.montserrat(
                             textStyle: Theme.of(context).textTheme.bodyText1,
                           ),
