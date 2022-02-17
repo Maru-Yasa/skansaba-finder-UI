@@ -4,13 +4,13 @@ import 'package:provider/provider.dart';
 import 'package:skansaba_finder/components/my_container.dart';
 import 'package:skansaba_finder/providers/auth.dart';
 import 'package:skansaba_finder/screens/edit_profile_screen.dart';
+import 'package:skansaba_finder/screens/lapor_barang_add_screen.dart';
 import 'package:skansaba_finder/widgets/icon_button.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ProfileBox extends StatelessWidget {
-  final String name;
   final Map<String, dynamic> myAuth;
-  const ProfileBox({Key? key, required this.name, required this.myAuth})
-      : super(key: key);
+  const ProfileBox({Key? key, required this.myAuth}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class ProfileBox extends StatelessWidget {
                 backgroundColor: Colors.blue,
                 radius: 45.0,
                 child: Text(
-                  name[0].toUpperCase(),
+                  myAuth['nama'][0].toUpperCase(),
                   style: const TextStyle(
                     fontSize: 35,
                     fontWeight: FontWeight.bold,
@@ -42,7 +42,7 @@ class ProfileBox extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                "Halo " + name,
+                "Halo " + myAuth['nama'],
                 style: GoogleFonts.montserrat(
                   textStyle: const TextStyle(
                     color: Colors.blue,
@@ -81,9 +81,11 @@ class ProfileBox extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              EditProfileScreen(myAuth: myAuth),
+                        PageTransition(
+                          child: EditProfileScreen(
+                            myAuth: myAuth,
+                          ),
+                          type: PageTransitionType.rightToLeft,
                         ),
                       );
                     },
@@ -97,6 +99,46 @@ class ProfileBox extends StatelessWidget {
                       ),
                     ),
                     icon: const Icon(Icons.edit),
+                    color: Colors.blue,
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  MyIconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: LaporBarangAddScreen(),
+                          type: PageTransitionType.rightToLeft,
+                        ),
+                      );
+                    },
+                    text: Text("Kehilangan"),
+                    icon: Icon(Icons.add_alert),
+                    color: Colors.blue,
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  MyIconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          child: LaporBarangAddScreen(),
+                          type: PageTransitionType.rightToLeft,
+                        ),
+                      );
+                    },
+                    text: Text("Barang"),
+                    icon: Icon(Icons.add_box),
                     color: Colors.blue,
                   ),
                 ],

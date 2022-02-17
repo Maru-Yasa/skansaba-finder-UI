@@ -62,11 +62,29 @@ class Auth with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<String?>? register(LoginData registerData) async {
+  Future<String?>? register(SignupData registerData) async {
     var username = registerData.name;
     var password = registerData.password;
     String param = "/api/user/add";
+
+    var data = {
+      "nama": registerData.additionalSignupData!['nama'],
+      "username": username,
+      "password": password,
+      "role": "user",
+    };
     Uri url = Uri.parse(Config.BASEURL + param);
+
+    var response = await http.post(
+      url,
+      body: data,
+    );
+
+    if (response.statusCode == 200) {
+      print(response.body);
+    } else {
+      print(response.body);
+    }
     return null;
   }
 

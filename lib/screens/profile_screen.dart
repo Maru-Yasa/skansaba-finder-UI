@@ -44,18 +44,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         print(value);
         setState(() {
           myAuth = value;
+          print(myAuth);
+          is_loading = false;
         });
       }).catchError((e) {
-        print(e);
-      });
-      Provider.of<BarangProvider>(context).barang_all.then((value) {
-        setState(() {
-          barang_all = value;
-        });
-      });
-      setState(() {
-        _dataToWidget();
-        is_loading = false;
+        throw e;
       });
     }
     is_init = false;
@@ -67,13 +60,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Container(
       child: (is_loading)
           ? Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                ProfileBox(
-                  name: myAuth['nama'],
-                  myAuth: myAuth,
-                ),
-              ],
+          : ProfileBox(
+              myAuth: myAuth,
             ),
     );
   }

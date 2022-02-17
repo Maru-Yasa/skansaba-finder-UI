@@ -31,15 +31,15 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  // Future<String?>? _register(LoginData data) {
-  //   return Future.delayed(loginTime).then((_) async {
-  //     try {
-  //       await Provider.of<auth.Auth>(context, listen: false).register(data);
-  //     } catch (e) {
-  //       return e.toString();
-  //     }
-  //   });
-  // }
+  Future<String?>? _register(SignupData data) {
+    return Future.delayed(loginTime).then((_) async {
+      try {
+        await Provider.of<auth.Auth>(context, listen: false).register(data);
+      } catch (e) {
+        return e.toString();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +79,7 @@ class _LoginScreenState extends State<LoginScreen> {
           signUpSuccess: "Berhasil mendaftar",
         ),
         userType: LoginUserType.name,
-        onSignup: (value) {},
+        onSignup: _register,
         logo: AssetImage("images/logo.png"),
         title: "Skansaba Finder",
         onLogin: _loginController,
